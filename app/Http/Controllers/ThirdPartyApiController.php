@@ -22,10 +22,25 @@ class ThirdPartyApiController extends Controller
              $ids = array();
              $this->findIds($data, $ids);
 
-             dd( $ids);
          } else {
              echo "url  not found.";
          }
+
+         $data = collect($ids);
+
+        $uniqueId = $data->unique()->values()->toArray();
+
+
+
+        $formattedData = [];
+        foreach ($uniqueId as $id) {
+            $formattedData[] = ["id" => $id];
+        }
+        //   dd( $formattedData);
+
+        Excel::store(new IdsExport($formattedData), 'exports/users.xlsx');
+
+        return  "Unique IDs exported to unique_ids.xlsx";
 
     }
 
@@ -38,7 +53,7 @@ class ThirdPartyApiController extends Controller
             }
         }
     }
-    
+
     public function exportToExcel()
     {
         $data = collect([
