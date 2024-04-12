@@ -22,8 +22,9 @@ Route::get('/ip', [IPTrackerController::class, 'track'])->name('ip');
 
 
 // Task 3 : Get All ID's and Store to excel File
-Route::get('getData',[ThirdPartyApiController::class,'getData'])->name('getData');
-Route::get('exportToExcel',[ThirdPartyApiController::class,'exportToExcel']);
+Route::get('api-data',[ThirdPartyApiController::class,'index'])->name('api.data');
+Route::get('store-Data',[ThirdPartyApiController::class,'storeData'])->name('store.Data');
+Route::get('export-data',[ThirdPartyApiController::class,'exportToExcel'])->name('export.data');
 
 // Task 4 : Send Email
 Route::get('/send-email', [EmailController::class, 'showForm'])->name('send.email');

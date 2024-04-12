@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Response;
 
 class ThirdPartyApiController extends Controller
 {
 
-    public function getData()
+    public function index (){
+        return view ('api-data');
+    }
+    public function storeData()
     {
         $url = 'https://opencontext.org/query/Asia/Turkey/Kenan+Tepe.json';
 
@@ -56,28 +60,18 @@ class ThirdPartyApiController extends Controller
 
     public function exportToExcel()
     {
-        $data = collect([
-            ["id" => 1, "name" => "Alice"],
-            ["id" => 2, "name" => "Bob"],
+       // Get the file path
+    $filePath = storage_path('app/exports/unique_ids.xlsx');
 
+    // Return the response with the file download link
+    return Response::download($filePath, 'unique_ids.xlsx')->deleteFileAfterSend(true);
+}
 
-        ]);
-
-        $uniqueId = $data->pluck('id')->unique()->values()->toArray();
-
-        $formattedData = [];
-        foreach ($uniqueId as $id) {
-            $formattedData[] = ["id" => $id];
-        }
-
-        Excel::store(new IdsExport($formattedData), 'exports/users.xlsx');
-
-        return  "Unique IDs exported to unique_ids.xlsx";
     }
 
 
 
-}
+
 
 
 

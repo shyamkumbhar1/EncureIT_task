@@ -21,7 +21,7 @@
                 <a href="{{route('ip')}}" class="btn btn-primary btn-block">Task 2</a>
             </div>
             <div class="col-md-6 col-lg-3 mb-4">
-                <a href="{{route('getData')}}" class="btn btn-primary btn-block">Task 3</a>
+                <a href="{{route('api.data')}}" class="btn btn-primary btn-block">Task 3</a>
             </div>
             <div class="col-md-6 col-lg-3 mb-4">
                 <a href="{{route('send.email')}}" class="btn btn-primary btn-block">Task 4</a>
