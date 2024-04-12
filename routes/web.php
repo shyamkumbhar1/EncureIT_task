@@ -14,17 +14,17 @@ Route::get('/', function () {
 });
 
 // Task 1 : Store Data to database with execution time
-Route::get('/demo', [DemoController::class, 'index']);
+Route::get('/demo', [DemoController::class, 'index'])->name('demo');
 Route::post('/demo', [DemoController::class, 'store']);
 
 // Task 2 : Find Location Using IP
-Route::get('/ip', [IPTrackerController::class, 'track']);
+Route::get('/ip', [IPTrackerController::class, 'track'])->name('ip');
 
 
 // Task 3 : Get All ID's and Store to excel File
-Route::get('getData',[ThirdPartyApiController::class,'getData']);
+Route::get('getData',[ThirdPartyApiController::class,'getData'])->name('getData');
 Route::get('exportToExcel',[ThirdPartyApiController::class,'exportToExcel']);
 
 // Task 4 : Send Email
-Route::get('/send-email', [EmailController::class, 'showForm']);
+Route::get('/send-email', [EmailController::class, 'showForm'])->name('send.email');
 Route::post('/send-email', [EmailController::class, 'sendEmail']);

@@ -38,7 +38,7 @@ class ThirdPartyApiController extends Controller
         }
         //   dd( $formattedData);
 
-        Excel::store(new IdsExport($formattedData), 'exports/users.xlsx');
+        Excel::store(new IdsExport($formattedData), 'exports/unique_ids.xlsx');
 
         return  "Unique IDs exported to unique_ids.xlsx";
 
