@@ -10,8 +10,8 @@ class IPTrackerController extends Controller
 {
     public function track(Request $request)
     {
-    // $public_ip = $request->ip();
-    $public_ip = '113.193.119.116';
+    $public_ip = $request->ip();
+    // $public_ip = '113.193.119.116';
 
         if ($data = Location::get($public_ip)) {
 
@@ -28,7 +28,7 @@ class IPTrackerController extends Controller
             'state' => $data->regionName,
         ];
     } else {
-       
+
         $cookie_data = [
             'ip' => $public_ip,
             'city' => 'Unknown',
