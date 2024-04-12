@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ArrayExport;
+use App\Exports\IdsExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -38,7 +38,7 @@ class ThirdPartyApiController extends Controller
 
     public function exportToExcel()
     {
-        $data = [
+        $data = collect([
             ["id" => 1, "name" => "Alice"],
             ["id" => 2, "name" => "Bob"],
             ["id" => 3, "name" => "Charlie"],
@@ -47,12 +47,18 @@ class ThirdPartyApiController extends Controller
             ["id" => 3, "name" => "Charlie"],
             ["id" => 3, "name" => "Charlie"],
             // Add more data as needed
-        ];
-        // Remove duplicates based on 'id' field
-         $uniqueData = collect($data)->unique('id')->values()->all();
-        Excel::store(new ArrayExport($uniqueData), 'exports/users.xlsx');
+        ]);
 
-    return "Data stored to users.xlsx";
+        $uniqueId = $data->pluck('id')->unique()->values()->toArray();
+
+        $formattedData = [];
+        foreach ($uniqueId as $id) {
+            $formattedData[] = ["id" => $id];
+        }
+
+        Excel::store(new IdsExport($formattedData), 'exports/users.xlsx');
+
+        return  "Unique IDs exported to unique_ids.xlsx";
     }
 }
 
