@@ -13,5 +13,6 @@ Route::get('/', function () {
 
 Route::get('traverse-record',[ThirdPartyApiController::class,'fetchDataAndStoreInExcel']);
 Route::get('exportToExcel',[ThirdPartyApiController::class,'exportToExcel']);
+Route::get('getData',[ThirdPartyApiController::class,'getData']);
 
 

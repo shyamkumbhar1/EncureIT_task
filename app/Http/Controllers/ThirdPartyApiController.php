@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use App\Exports\IdsExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -60,6 +61,21 @@ class ThirdPartyApiController extends Controller
 
         return  "Unique IDs exported to unique_ids.xlsx";
     }
+
+    public function getData()
+    {
+        $client = new Client();
+        $url = 'https://opencontext.org/query/Asia/Turkey/Kenan+Tepe.json';
+
+        try {
+            $response = $client->get($url);
+            $data = json_decode($response->getBody()->getContents(), true);
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }
 
 
