@@ -8,7 +8,8 @@ use App\Models\Demo;
 class DemoController extends Controller
 {
     public function index (){
-        return view('demo');
+        $data = Demo::all();
+        return view('demo',compact('data'));
     }
     public function store(Request $request)
     {
