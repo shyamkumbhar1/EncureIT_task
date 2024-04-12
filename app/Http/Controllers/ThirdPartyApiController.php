@@ -11,43 +11,41 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ThirdPartyApiController extends Controller
 {
-    public function fetchDataAndStoreInExcel()
+
+    public function getData()
     {
-        try {
-            // Make request to API and get JSON response
-            $response = Http::get('https://opencontext.org/query/Asia/Turkey/Kenan+Tepe.json');
-            $data = $response->json();
+        $url = 'https://opencontext.org/query/Asia/Turkey/Kenan+Tepe.json';
 
-            // Extract relevant data from JSON
-            $records = $data['records'];
+           if ($url) {
+             $json = file_get_contents($url);
+             $data = json_decode($json, true);
+             $ids = array();
+             $this->findIds($data, $ids);
 
-            // Write data to Excel
-            $filePath = storage_path('app/excel/kenan_tepe_data.xlsx');
-            Excel::create('kenan_tepe_data', function($excel) use ($records) {
-                $excel->sheet('Sheet1', function($sheet) use ($records) {
-                    $sheet->fromArray($records);
-                });
-            })->store('xlsx', storage_path('app/excel'));
+             dd( $ids);
+         } else {
+             echo "url  not found.";
+         }
 
-            // Log the file path
-            Log::info('Excel file created at: ' . $filePath);
-        } catch (\Exception $e) {
-            // Log any errors
-            Log::error('Error occurred: ' . $e->getMessage());
-        }
     }
 
+     private function findIds($data, &$ids) {
+        foreach ($data as $key => $value) {
+            if ($key === 'id') {
+                $ids[] = $value;
+            } elseif (is_array($value)) {
+                $this->findIds($value, $ids);
+            }
+        }
+    }
+    
     public function exportToExcel()
     {
         $data = collect([
             ["id" => 1, "name" => "Alice"],
             ["id" => 2, "name" => "Bob"],
-            ["id" => 3, "name" => "Charlie"],
-            ["id" => 3, "name" => "Charlie"],
-            ["id" => 3, "name" => "Charlie"],
-            ["id" => 3, "name" => "Charlie"],
-            ["id" => 3, "name" => "Charlie"],
-            // Add more data as needed
+
+
         ]);
 
         $uniqueId = $data->pluck('id')->unique()->values()->toArray();
@@ -62,19 +60,7 @@ class ThirdPartyApiController extends Controller
         return  "Unique IDs exported to unique_ids.xlsx";
     }
 
-    public function getData()
-    {
-        $client = new Client();
-        $url = 'https://opencontext.org/query/Asia/Turkey/Kenan+Tepe.json';
 
-        try {
-            $response = $client->get($url);
-            $data = json_decode($response->getBody()->getContents(), true);
-            return response()->json($data);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
 
 }
 
