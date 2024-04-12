@@ -42,10 +42,15 @@ class ThirdPartyApiController extends Controller
             ["id" => 1, "name" => "Alice"],
             ["id" => 2, "name" => "Bob"],
             ["id" => 3, "name" => "Charlie"],
+            ["id" => 3, "name" => "Charlie"],
+            ["id" => 3, "name" => "Charlie"],
+            ["id" => 3, "name" => "Charlie"],
+            ["id" => 3, "name" => "Charlie"],
             // Add more data as needed
         ];
-
-        Excel::store(new ArrayExport($data), 'exports/users.xlsx');
+        // Remove duplicates based on 'id' field
+         $uniqueData = collect($data)->unique('id')->values()->all();
+        Excel::store(new ArrayExport($uniqueData), 'exports/users.xlsx');
 
     return "Data stored to users.xlsx";
     }
