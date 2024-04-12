@@ -7,6 +7,7 @@ use function PHPUnit\Framework\isTrue;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\JsonController;
 use App\Http\Controllers\ExcelController;
+use App\Http\Controllers\IPTrackerController;
 use App\Http\Controllers\ThirdPartyApiController;
 
 Route::get('/', function () {
@@ -16,6 +17,10 @@ Route::get('/', function () {
 // Task 1
 Route::get('/demo', [DemoController::class, 'index']);
 Route::post('/demo', [DemoController::class, 'store']);
+
+
+// Task 2
+Route::get('/ip', [IPTrackerController::class, 'track']);
 
 
 // Task 3
